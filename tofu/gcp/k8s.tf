@@ -114,6 +114,20 @@ resource "google_compute_subnetwork" "bastion" {
   network       = google_compute_network.this.self_link
   ip_cidr_range = local.cidr.bastion
 }
+
+# # Routes
+# resource "google_compute_route" "k8s_data_plane_0" {
+#   name        = "${local.prefix}-k8s-data-plane-0"
+#   network     = google_compute_network.this.name
+#   next_hop_ip = "10.1.0.11"
+#   dest_range  = "10.200.0.0/24"
+# }
+# resource "google_compute_route" "k8s_data_plane_1" {
+#   name        = "${local.prefix}-k8s-data-plane-1"
+#   network     = google_compute_network.this.name
+#   next_hop_ip = "10.1.0.12"
+#   dest_range  = "10.200.1.0/24"
+# }
 #===============================================================================
 
 #===============================================================================
