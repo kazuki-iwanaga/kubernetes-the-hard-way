@@ -5,8 +5,8 @@ locals {
     k8s = {
       master_nodes = "10.0.0.0/28"
       nodes        = "10.1.0.0/24"
-      pods         = "10.2.0.0/16"
-      services     = "10.3.0.0/20"
+      pods         = "10.200.0.0/16"
+      services     = "10.32.0.0/24"
     }
     bastion = "10.4.0.0/28"
     iap     = "35.235.240.0/20"
@@ -135,7 +135,7 @@ resource "google_project_iam_member" "vm" {
 # Control Plane
 resource "google_compute_instance" "k8s_control_plane" {
   count        = length(local.vm.k8s_control_plane.ip_address)
-  name         = "${local.prefix}-k8s-control-plane-${count.index}"
+  name         = "${local.prefix}-server-${count.index}"
   machine_type = local.vm.k8s_control_plane.machine_type
   zone         = var.zone
   service_account {
@@ -161,7 +161,7 @@ resource "google_compute_instance" "k8s_control_plane" {
 # Data Plane
 resource "google_compute_instance" "k8s_data_plane" {
   count        = length(local.vm.k8s_data_plane.ip_address)
-  name         = "${local.prefix}-k8s-data-plane-${count.index}"
+  name         = "${local.prefix}-node-${count.index}"
   machine_type = local.vm.k8s_data_plane.machine_type
   zone         = var.zone
   service_account {
